@@ -1,0 +1,97 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title muted">Total Orders</h5>
+                        <h3 class="card-text">{{ totalOrders }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title muted">Total Orders This Month</h5>
+                        <h3 class="card-text">{{ totalOrdersThisMonth }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title muted">Total Orders In Progress</h5>
+                        <h3 class="card-text">{{ totalOrdersInProgress }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title muted">Total Revenue</h5>
+                        <h3 class="card-text">{{ totalRevenue }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col"><hr/></div>
+        </div>
+        <div class="row">
+            <div class="col">10 Recent Orders</div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for key, row in listRecentOrders %}
+                        <tr>
+                            <th scope="row">{{ row.order_id }}</th>
+                            <td>{{ row.product_name }}</td>
+                            <td>
+                                <address>
+                                    <strong>{{ row.first_name }} {{ row.last_name }}</strong><br>
+                                    {{ row.address }}<br>
+                                    <abbr title="email">E:</abbr> {{ row.email }}
+                                </address>
+                            </td>
+                            <td>£{{ row.price }}</td>
+                            <td>{{ row.order_placed|date('m-d-Y') }}</td>
+                            <td>
+                                {% if row.order_status == 'in_progress' %}
+                                    <span class="badge bg-success">{{ row.order_status }}</span>
+                                {% elseif row.order_status == 'placed' %}
+                                    <span class="badge bg-info">{{ row.order_status }}</span>
+                                {% elseif row.order_status == 'shipped' %}
+                                    <span class="badge bg-warning">{{ row.order_status }}</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">{{ row.order_status }}</span>
+                                {% endif %}
+
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
